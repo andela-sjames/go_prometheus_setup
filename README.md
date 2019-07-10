@@ -2,34 +2,34 @@
 A sample app to demonstrate instrumentation with go and prometheus
 
 
-# use prometheus go client
+### use prometheus go client
 https://github.com/prometheus/client_golang
 
 Google SRE Best practice
 https://landing.google.com/sre/sre-book/chapters/monitoring-distributed-systems/
 
-# build image
+### build image
 `docker build -t fraugster_server .`
 
-# Log in this CLI session using your Docker credentials
+### Log in this CLI session using your Docker credentials
 `docker login`
 
-# Tag <image> for upload to registry
+### Tag <image> for upload to registry
 `docker tag fraugster_server username/fraugsterserver:latest`
 
-# Upload tagged image to registry
+### Upload tagged image to registry
 `docker push username/fraugsterserver:latest`
 
-# image 
+### image 
 `samuelvarejames/fraugster_server:latest`
 
-# start your single node cluster using docker swarm mode
+### start your single node cluster using docker swarm mode
 `docker swarm init`
 
-# deploy app into node
+### deploy app into node
 `docker stack deploy -c docker-compose.yml obsvchallenge`
 
-# get the service ID for the one service in our application (app within the node)
+### get the service ID for the one service in our application (app within the node)
 `docker service ls`
 
 ```
@@ -42,11 +42,11 @@ im9h6eprkuia        obsvchallenge_grafana      replicated          1/1          
 wputadz4elbg        obsvchallenge_server       replicated          20/20               samuelvarejames/fraugster_server:latest   *:8000->8000/tcp
 ```
 
-# list the replicas deployed for the server
+### list the replicas deployed for the server
 `docker service ps obsvchallenge_server`
 
-# # Tear down an application obsvchallenge
+### Tear down an application obsvchallenge
 `docker stack rm obsvchallenge`
 
-# Take down a single node swarm from the manager
+### Take down a single node swarm from the manager
 `docker swarm leave --force`
