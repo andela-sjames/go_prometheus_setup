@@ -11,9 +11,9 @@ https://landing.google.com/sre/sre-book/chapters/monitoring-distributed-systems/
 
 ## Run outside the cluster
 `docker-compose up`
-- Prometheus runs on localhost:9090
-- Graphana runs on localhost:3000 { user: admin, password: pass}
-- cadvisor runs on localhost:8080* 
+- Prometheus runs on `localhost:9090`
+- Graphana runs on `localhost:3000` { user: admin, password: pass}
+- cadvisor runs on `localhost:8080` 
 
 ### build image
 `docker build -t fraugster_server .`
