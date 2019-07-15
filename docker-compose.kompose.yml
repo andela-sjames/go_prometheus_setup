@@ -1,0 +1,44 @@
+version: '3'
+
+volumes:
+  prometheus_data: {}
+  grafana_data: {}
+
+services:
+  server:
+    restart: always
+    image: samuelvarejames/fraugsterserver:latest
+    ports:
+      - "8000:8000"
+    labels:
+      kompose.service.expose: "fraugsterserver.example.com"
+      kompose.service.type: "loadbalancer"
+  db:
+    restart: always
+    image: postgres
+  prometheus:
+    image: prom/prometheus:latest
+    container_name: prometheus
+    ports:
+      - 9090:9090
+    command:
+      - --config.file=/etc/prometheus/prometheus.yml
+    volumes:
+      - ./prometheus.yml:/etc/prometheus/prometheus.yml:ro
+      - prometheus_data:/prometheus
+    labels:
+      kompose.service.expose: "prometheus.example.com"
+      kompose.service.type: "loadbalancer"
+  grafana:
+    image: grafana/grafana:3.0.0-beta7
+    environment:
+        - GF_SECURITY_ADMIN_PASSWORD=pass
+    depends_on:
+        - prometheus
+    ports:
+        - "3000:3000"
+    volumes:
+      - grafana_data:/var/lib/grafana
+    labels:
+      kompose.service.expose: "grafana.example.com"
+      kompose.service.type: "loadbalancer"

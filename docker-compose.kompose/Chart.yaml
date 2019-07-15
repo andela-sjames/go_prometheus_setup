@@ -1,0 +1,12 @@
+apiVersion: "v1"
+name: docker-compose.K8
+description: A generated Helm Chart for docker-compose.K8 from Skippbox Kompose
+version: 0.0.1
+keywords:
+  - docker-compose.K8
+maintainers:
+  - name: Samuel James
+    email: samuelvarejames@gmail.com
+sources:
+  - https://github.com/andela-sjames/go_prometheus_setup
+home:
