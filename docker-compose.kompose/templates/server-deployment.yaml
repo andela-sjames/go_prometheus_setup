@@ -20,7 +20,7 @@ spec:
         io.kompose.service: server
     spec:
       containers:
-      - image: samuelvarejames/fraugsterserver:latest
+      - image: samuelvarejames/fgserver:latest
         name: server
         ports:
         - containerPort: 8000
