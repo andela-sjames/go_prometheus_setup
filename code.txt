@@ -48,5 +48,23 @@ docker swarm leave --force
 # Use the kubenetes Kompose utility
 
 # create the helm chart for converted objects
-kompose convert -f docker-compose.K8.yml --chart
+kompose convert -f docker-compose.kompose.yml --chart
 
+# start minikube
+minikube start
+
+# check cluster info
+kubectl cluster-info
+
+# create a ServiceAccount and associate it with the ClusterRole, use a ClusterRoleBinding
+kubectl create serviceaccount -n kube-system tiller
+kubectl create clusterrolebinding tiller-cluster-rule --clusterrole=cluster-admin --serviceaccount=kube-system:tiller
+
+# Initialize Helm 
+helm init --history-max 200 --service-account tiller
+
+# confirm tiller works
+kubectl --namespace kube-system get pods | grep tiller
+
+# install the helm charts to the cluster
+helm install --name obsvchallenge docker-compose.kompose
