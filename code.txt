@@ -43,3 +43,10 @@ docker stack rm obsvchallenge
 
 # Take down a single node swarm from the manager
 docker swarm leave --force
+
+
+# Use the kubenetes Kompose utility
+
+# create the helm chart for converted objects
+kompose convert -f docker-compose.K8.yml --chart
+

@@ -1,0 +1,17 @@
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  creationTimestamp: null
+  labels:
+    io.kompose.service: grafana
+  name: grafana
+spec:
+  rules:
+  - host: grafana.example.com
+    http:
+      paths:
+      - backend:
+          serviceName: grafana
+          servicePort: 3000
+status:
+  loadBalancer: {}
