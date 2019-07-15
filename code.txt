@@ -44,40 +44,58 @@ docker stack rm obsvchallenge
 # Take down a single node swarm from the manager
 docker swarm leave --force
 
-
+-----------------------------------------------------
+-----------------------------------------------------
 # Use the kubenetes Kompose utility
+# install: https://kubernetes.io/docs/tasks/configure-pod-container/translate-compose-kubernetes/
+# blog: https://kubernetes.io/blog/2016/11/kompose-tool-go-from-docker-compose-to-kubernetes/
 
-# create the helm chart for converted objects
+# create the server helm chart for converted objects
 kompose convert -f docker-compose.kompose.yml --chart
+
 
 # start minikube
 minikube start
 
+
 # check cluster info
 kubectl cluster-info
+
 
 # create a ServiceAccount and associate it with the ClusterRole, use a ClusterRoleBinding
 kubectl create serviceaccount -n kube-system tiller
 kubectl create clusterrolebinding tiller-cluster-rule --clusterrole=cluster-admin --serviceaccount=kube-system:tiller
 
+
 # Initialize Helm 
 helm init --history-max 200 --service-account tiller
+
 
 # confirm tiller works
 kubectl --namespace kube-system get pods | grep tiller
 
-# set the volumes for grafana and prometheus
-# reference: https://kubernetes.io/docs/tasks/configure-pod-container/configure-persistent-volume-storage/
-minikube ssh
-sudo mkdir /mnt/grafana-data
-sudo mkdir /mnt/prometheus-data
-# manually copy content of prometheus.yml to minikube cluster via minikube ssh
 
-# install the helm charts to the cluster
-helm install --name obsvchallenge docker-compose.kompose
+# Install Prometheus and Postgres into the cluster, using a Helm chart
+helm install --name prometheus-release stable/prometheus-operator
+helm install --name postgres-release stable/postgresql
 
-# delete the release
-helm delete obsvchallenge
+
+# install the server helm charts to the cluster
+helm install --name server-release docker-compose.kompose
+
+# delete the release(s)
+helm delete server-release
+helm delete prometheus-release
+helm delete postgres-release
 
 # purge
-helm del --purge obsvchallenge
+helm del --purge server-release
+helm del --purge prometheus-release
+helm del --purge postgres-release
+
+
+# stop the local k8s cluster
+minikube stop
+
+# delete local k8s cluster
+minikube delete
