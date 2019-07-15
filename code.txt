@@ -66,8 +66,18 @@ helm init --history-max 200 --service-account tiller
 # confirm tiller works
 kubectl --namespace kube-system get pods | grep tiller
 
+# set the volumes for grafana and prometheus
+# reference: https://kubernetes.io/docs/tasks/configure-pod-container/configure-persistent-volume-storage/
+minikube ssh
+sudo mkdir /mnt/grafana-data
+sudo mkdir /mnt/prometheus-data
+# manually copy content of prometheus.yml to minikube cluster via minikube ssh
+
 # install the helm charts to the cluster
 helm install --name obsvchallenge docker-compose.kompose
 
 # delete the release
 helm delete obsvchallenge
+
+# purge
+helm del --purge obsvchallenge

@@ -1,7 +1,6 @@
 scrape_configs:
-- job_name: cadvisor
+- job_name: k8_server
   scrape_interval: 5s
   static_configs:
   - targets:
-    - cadvisor:8080
     - fraugster_server:8000

@@ -7,7 +7,7 @@ volumes:
 services:
   server:
     restart: always
-    image: samuelvarejames/fgserver:latest
+    image: samuelvarejames/fgserver:latest 
     ports:
       - "8000:8000"
     labels:

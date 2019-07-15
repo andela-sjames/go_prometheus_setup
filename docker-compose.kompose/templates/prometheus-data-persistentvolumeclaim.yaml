@@ -11,4 +11,6 @@ spec:
   resources:
     requests:
       storage: 100Mi
+  hostPath:
+    path: "/mnt/prometheus-data"
 status: {}
