@@ -68,3 +68,6 @@ kubectl --namespace kube-system get pods | grep tiller
 
 # install the helm charts to the cluster
 helm install --name obsvchallenge docker-compose.kompose
+
+# delete the release
+helm delete obsvchallenge
