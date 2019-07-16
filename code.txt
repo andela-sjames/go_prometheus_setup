@@ -53,35 +53,31 @@ docker swarm leave --force
 # create the server helm chart for converted objects
 kompose convert -f docker-compose.kompose.yml --chart
 
-
 # start minikube
 minikube start
 
-
 # check cluster info
 kubectl cluster-info
-
 
 # create a ServiceAccount and associate it with the ClusterRole, use a ClusterRoleBinding
 kubectl create serviceaccount -n kube-system tiller
 kubectl create clusterrolebinding tiller-cluster-rule --clusterrole=cluster-admin --serviceaccount=kube-system:tiller
 
-
 # Initialize Helm 
 helm init --history-max 200 --service-account tiller
 
-
 # confirm tiller works
 kubectl --namespace kube-system get pods | grep tiller
-
 
 # Install Prometheus and Postgres into the cluster, using a Helm chart
 helm install --name prometheus-release stable/prometheus-operator
 helm install --name postgres-release stable/postgresql
 
-
 # install the server helm charts to the cluster
 helm install --name server-release docker-compose.kompose
+
+# scale the server service to x
+kubectl scale deployments/server --replicas=x
 
 # delete the release(s)
 helm delete server-release
@@ -92,7 +88,6 @@ helm delete postgres-release
 helm del --purge server-release
 helm del --purge prometheus-release
 helm del --purge postgres-release
-
 
 # stop the local k8s cluster
 minikube stop
