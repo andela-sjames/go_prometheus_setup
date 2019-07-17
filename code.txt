@@ -77,6 +77,13 @@ helm install --name postgres-release stable/postgresql
 # install the server helm charts to the cluster
 helm install --name server-release docker-compose.kompose
 
+# update
+helm upgrade server-release docker-compose.kompose
+
+# view the kubernetes dashboard
+minikube dashboard
+
+
 # scale the server service to x
 kubectl scale deployments/server --replicas=x
 

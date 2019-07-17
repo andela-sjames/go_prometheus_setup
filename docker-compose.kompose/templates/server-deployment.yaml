@@ -28,9 +28,9 @@ spec:
         env:
           - name: PGPASSWORD
             valueFrom:
-            secretKeyRef:
-              name: postgres-release-postgresql
-              key: postgresql-password
+              secretKeyRef:
+                name: postgres-release-postgresql
+                key: postgresql-password
           - name: PGHOST
             value: "postgres-release-postgresql.default.svc.cluster.local"
       restartPolicy: Always
