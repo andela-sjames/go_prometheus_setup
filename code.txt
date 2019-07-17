@@ -49,6 +49,7 @@ docker swarm leave --force
 # Use the kubenetes Kompose utility
 # install: https://kubernetes.io/docs/tasks/configure-pod-container/translate-compose-kubernetes/
 # blog: https://kubernetes.io/blog/2016/11/kompose-tool-go-from-docker-compose-to-kubernetes/
+# https://kubernetes.io/docs/tasks/inject-data-application/define-environment-variable-container/
 
 # create the server helm chart for converted objects
 kompose convert -f docker-compose.kompose.yml --chart

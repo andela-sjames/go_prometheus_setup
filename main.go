@@ -14,7 +14,7 @@ import (
 )
 
 const (
-	host   = "localhost"
+	// host   = "localhost"
 	port   = 5432
 	user   = "postgres"
 	dbname = "postgres"
@@ -63,6 +63,7 @@ func makeHandler(fn func(http.ResponseWriter, *http.Request, string)) http.Handl
 
 func main() {
 	password := os.Getenv("PGPASSWORD")
+	host := os.Getenv("PGHOST")
 
 	// setup DB connection
 	psqlInfo := fmt.Sprintf("host=%s port=%d user=%s password=%s dbname=%s sslmode=disable", host, port, user, password, dbname)
