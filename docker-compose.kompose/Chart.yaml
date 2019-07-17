@@ -1,0 +1,7 @@
+name: docker-compose.kompose
+description: A generated Helm Chart for docker-compose.kompose from Skippbox Kompose
+version: 0.0.1
+keywords:
+  - docker-compose.kompose
+sources:
+home:

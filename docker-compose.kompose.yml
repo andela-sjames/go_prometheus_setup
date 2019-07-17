@@ -1,0 +1,11 @@
+version: '3'
+
+services:
+  server:
+    restart: always
+    image: samuelvarejames/fgserver:latest 
+    ports:
+      - "8000:8000"
+    labels:
+      kompose.service.expose: "fraugsterserver.example.com"
+      kompose.service.type: "loadbalancer"

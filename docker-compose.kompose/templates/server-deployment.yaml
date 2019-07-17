@@ -1,0 +1,37 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  annotations:
+    kompose.cmd: kompose convert -f docker-compose.kompose.yml --chart
+    kompose.service.expose: fraugsterserver.example.com
+    kompose.service.type: loadbalancer
+    kompose.version: 1.18.0 ()
+  creationTimestamp: null
+  labels:
+    io.kompose.service: server
+  name: server
+spec:
+  replicas: 1
+  strategy: {}
+  template:
+    metadata:
+      creationTimestamp: null
+      labels:
+        io.kompose.service: server
+    spec:
+      containers:
+      - image: samuelvarejames/fgserver:latest
+        name: server
+        ports:
+        - containerPort: 8000
+        resources: {}
+        env:
+          - name: PGPASSWORD
+            valueFrom:
+              secretKeyRef:
+                name: postgres-release-postgresql
+                key: postgresql-password
+          - name: PGHOST
+            value: "postgres-release-postgresql.default.svc.cluster.local"
+      restartPolicy: Always
+status: {}
