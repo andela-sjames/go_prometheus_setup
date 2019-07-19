@@ -2,7 +2,7 @@
 A sample app to demonstrate instrumentation with go and prometheus
 
 
-### use prometheus go client
+### Using Docker Swarm mode and prometheus go client
 https://github.com/prometheus/client_golang
 
 Google SRE Best practice
