@@ -72,8 +72,10 @@ wputadz4elbg        obsvchallenge_server       replicated          20/20        
 `kubectl cluster-info` 
 
 ### create a ServiceAccount and associate it with the ClusterRole, use a ClusterRoleBinding
-`kubectl create serviceaccount -n kube-system tiller`
-`kubectl create clusterrolebinding tiller-cluster-rule --clusterrole=cluster-admin --serviceaccount=kube-system:tiller`
+```shell
+kubectl create serviceaccount -n kube-system tiller
+kubectl create clusterrolebinding tiller-cluster-rule --clusterrole=cluster-admin --serviceaccount=kube-system:tiller
+```
 
 ### Initialize Helm 
 `helm init --history-max 200 --service-account tiller`
@@ -85,12 +87,16 @@ wputadz4elbg        obsvchallenge_server       replicated          20/20        
 `kubectl apply -f crbinding.yaml`
 
 ### Install Prometheus and Postgres into the cluster, using a Helm chart
-`helm install --name prometheus-release --namespace monitoring stable/prometheus -f values.yaml`
-`helm install --name postgres-release stable/postgresql`
+```shell
+helm install --name prometheus-release --namespace monitoring stable/prometheus -f values.yaml
+helm install --name postgres-release stable/postgresql
+```
 
 ### Get the Prometheus server URL by running these commands in the same shell:
-`export POD_NAME=$(kubectl get pods --namespace monitoring -l "app=prometheus,component=server" -o jsonpath="{.items[0].metadata.name}")`
-`kubectl --namespace monitoring port-forward $POD_NAME 9090`
+```shell
+export POD_NAME=$(kubectl get pods --namespace monitoring -l "app=prometheus,component=server" -o jsonpath="{.items[0].metadata.name}")
+kubectl --namespace monitoring port-forward $POD_NAME 9090
+```
 
 ### install the server helm charts to the cluster
 `helm install --name server-release docker-compose.kompose`
