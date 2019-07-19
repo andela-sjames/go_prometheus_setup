@@ -57,3 +57,63 @@ wputadz4elbg        obsvchallenge_server       replicated          20/20        
 
 ### Take down a single node swarm from the manager
 `docker swarm leave --force`
+
+
+
+-----------------------------------------------------
+### Using K8s and  go prometheus
+-----------------------------------------------------
+
+
+### start minikube
+`minikube start`
+
+### check cluster info
+`kubectl cluster-info` 
+
+### create a ServiceAccount and associate it with the ClusterRole, use a ClusterRoleBinding
+`kubectl create serviceaccount -n kube-system tiller`
+`kubectl create clusterrolebinding tiller-cluster-rule --clusterrole=cluster-admin --serviceaccount=kube-system:tiller`
+
+### Initialize Helm 
+`helm init --history-max 200 --service-account tiller`
+
+### confirm tiller works
+`kubectl --namespace kube-system get pods | grep tiller`
+
+### bind the prometheus service account
+`kubectl apply -f crbinding.yaml`
+
+### Install Prometheus and Postgres into the cluster, using a Helm chart
+`helm install --name prometheus-release --namespace monitoring stable/prometheus -f values.yaml`
+`helm install --name postgres-release stable/postgresql`
+
+### Get the Prometheus server URL by running these commands in the same shell:
+`export POD_NAME=$(kubectl get pods --namespace monitoring -l "app=prometheus,component=server" -o jsonpath="{.items[0].metadata.name}")`
+`kubectl --namespace monitoring port-forward $POD_NAME 9090`
+
+### install the server helm charts to the cluster
+`helm install --name server-release docker-compose.kompose`
+
+### view the kubernetes dashboard
+`minikube dashboard` 
+
+### delete the release(s)
+```shell
+helm delete server-release
+helm delete prometheus-release
+helm delete postgres-release
+```
+
+### purge
+```shell
+helm del --purge server-release
+helm del --purge prometheus-release
+helm del --purge postgres-release
+```
+
+### stop the local k8s cluster
+`minikube stop`
+
+### delete local k8s cluster
+`minikube delete`
