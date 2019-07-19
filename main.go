@@ -43,7 +43,9 @@ var (
 )
 
 func init() {
-	prometheus.MustRegister(dbRequestsDuration, dbRequestsCurrent, dbClientErrors)
+	prometheus.MustRegister(dbRequestsDuration)
+	prometheus.MustRegister(dbClientErrors)
+	prometheus.MustRegister(dbRequestsCurrent)
 }
 
 func metricsHandler(w http.ResponseWriter, r *http.Request, s string) {
