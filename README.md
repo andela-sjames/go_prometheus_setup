@@ -92,6 +92,11 @@ helm install --name prometheus-release --namespace monitoring stable/prometheus 
 helm install --name postgres-release stable/postgresql
 ```
 
+### Install graphana
+```shell
+helm install --name prometheus-graphana --namespace monitoring stable/graphana -f values.yaml
+```
+
 ### Get the Prometheus server URL by running these commands in the same shell:
 ```shell
 export POD_NAME=$(kubectl get pods --namespace monitoring -l "app=prometheus,component=server" -o jsonpath="{.items[0].metadata.name}")
