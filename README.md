@@ -107,7 +107,13 @@ kubectl --namespace monitoring port-forward $POD_NAME 9090
 `helm install --name server-release docker-compose.kompose`
 
 ### view the kubernetes dashboard
-`minikube dashboard` 
+`minikube dashboard`
+
+### get grahana login details stored as secrets in the namespace 
+```
+kubectl get secret --namespace monitoring grafana -o jsonpath="{.data.admin-password}" | base64 --decode ; echo
+```
+
 
 ### delete the release(s)
 ```shell
