@@ -88,13 +88,13 @@ kubectl create clusterrolebinding tiller-cluster-rule --clusterrole=cluster-admi
 
 ### Install Prometheus and Postgres into the cluster, using a Helm chart
 ```shell
-helm install --name prometheus-release --namespace monitoring stable/prometheus -f values.yaml
+helm install --name prometheus-release --namespace monitoring stable/prometheus -f prometheus_values.yaml
 helm install --name postgres-release stable/postgresql
 ```
 
 ### Install graphana
 ```shell
-helm install --name prometheus-graphana --namespace monitoring stable/graphana -f values.yaml
+helm install --name grafana-release --namespace monitoring stable/grafana -f graphana_values.yaml
 ```
 
 ### Get the Prometheus server URL by running these commands in the same shell:
